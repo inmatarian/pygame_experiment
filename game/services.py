@@ -12,8 +12,8 @@ class Services(object):
         self.screen = None
         self.video_offset = (0,0)
         self.fonts = {}
-        self.fonts["monospace_small"] = pygame.font.Font("data/FreeMono.ttf", 16)
-        self.fonts["monospace_big"] = pygame.font.Font("data/FreeMono.ttf", 32)
+        self.fonts["default_small"] = pygame.font.Font(None, 16)
+        self.fonts["default_big"] = pygame.font.Font(None, 32)
 
     def getNextEvent(self):
         key = None
@@ -61,7 +61,7 @@ class Services(object):
             self.video_offset)
         pygame.display.flip()
 
-    def getTextSurface( self, face, text, aliased = True, color = (255,255,255) ):
+    def getTextSurface( self, face, text, aliased, color ):
         font = self.fonts[face]
-        return font.render( text, aliased, pygame.Color(color[0], color[1], color[2]) )
+        return font.render( text, aliased, color )
 

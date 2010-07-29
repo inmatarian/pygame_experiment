@@ -8,14 +8,9 @@ from gamemode import *
 
 class MenuScreen(GameMode):
     def __init__(self, services):
-        GameMode.__init__(self, services)
+        GameMode.__init__(self, services, pygame.Color(16,16,192))
 
     def run(self):
-        screen = self.services.screen
-        background = pygame.Color(16, 16, 192, 255)
-        rect = pygame.Rect(0, 0, 320, 240)
-        pygame.draw.rect(screen, background, rect)
-        pygame.display.flip()
         while True:
             self.delay()
         return None
