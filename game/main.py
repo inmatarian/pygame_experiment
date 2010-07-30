@@ -6,6 +6,7 @@
 import logging, pygame, random
 from logging import debug, info, warning, error, critical
 from loadscreen import *
+from menuscreen import *
 from services import *
 
 class MainGame(object):
@@ -19,7 +20,10 @@ class MainGame(object):
         pygame.init()
         self.services = Services()
         self.services.readyVideo( 320, 240 )
-        self.state = LoadScreen(self.services)
+        self.gameModes = {}
+        self.gameModes["load"] = LoadScreen(self.services)
+        self.gameModes["menu"] = MenuScreen(self.services)
+        self.state = self.gameModes["load"]
 
     def shutdown(self):
         pass
@@ -27,7 +31,11 @@ class MainGame(object):
     def run(self):
         self.startup()
         while self.state != None:
-            self.state = self.state.run()
+            res = self.state.run()
+            if res in self.gameModes:
+                self.state = self.gameModes[res]
+            else:
+                self.state = None
         self.shutdown()
         return
 

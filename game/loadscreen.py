@@ -54,5 +54,5 @@ class LoadScreen(GameMode):
             if frames == 0:
                 self.delay()
         self.delay(15)
-        return MenuScreen(self.services)
+        return "menu"
 

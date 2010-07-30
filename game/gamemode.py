@@ -11,6 +11,7 @@ class GameMode(object):
     def __init__(self, services, backColor=pygame.Color(0,0,0)):
         self.services = services
         self.lastKey = None
+        self.lastModkey = None
         self.group = pygame.sprite.LayeredDirty()
         self.background = pygame.Surface((320,240))
         self.background.fill( backColor )
@@ -30,11 +31,15 @@ class GameMode(object):
     def showSprite( self, sprite ):
         sprite.visible = 1
         sprite.dirty = 1
+    def moveSprite( self, sprite, dx, dy ):
+        sprite.rect.centerx += dx
+        sprite.rect.centery += dy
+        sprite.dirty = 1
 
     def delay(self, times=1):
         self.group.draw( self.services.screen, self.background )
         self.services.flipScreens()
         for i in range(times):
             pygame.time.wait(33)
-        self.lastKey = self.services.getNextEvent()
+        (self.lastKey, self.lastModkey) = self.services.getNextEvent()
 
