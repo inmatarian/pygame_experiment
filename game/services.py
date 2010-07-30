@@ -11,6 +11,7 @@ class Services(object):
     def __init__(self):
         self.screen = None
         self.video_offset = (0,0)
+        self.clock = pygame.time.Clock()
         self.fonts = {}
         self.fonts["default_small"] = pygame.font.Font(None, 16)
         self.fonts["default_big"] = pygame.font.Font(None, 32)
@@ -60,6 +61,9 @@ class Services(object):
                 self.buffer_surface.get_size(), self.buffer_surface),
             self.video_offset)
         pygame.display.flip()
+
+    def delayFramerate(self):
+        self.clock.tick(30)
 
     def getTextSurface( self, face, text, aliased, color ):
         font = self.fonts[face]

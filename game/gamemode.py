@@ -40,6 +40,6 @@ class GameMode(object):
         self.group.draw( self.services.screen, self.background )
         self.services.flipScreens()
         for i in range(times):
-            pygame.time.wait(33)
-        (self.lastKey, self.lastModkey) = self.services.getNextEvent()
+            self.services.delayFramerate()
+            (self.lastKey, self.lastModkey) = self.services.getNextEvent()
 

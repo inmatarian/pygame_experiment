@@ -3,7 +3,7 @@
 #
 # ----------------------------------------------------------------------------
 
-import logging, pygame, random
+import logging, pygame, random, os, ConfigParser
 from logging import debug, info, warning, error, critical
 from loadscreen import *
 from menuscreen import *
@@ -15,18 +15,33 @@ class MainGame(object):
                              format="%(levelname)s: %(message)s" )
         return
 
+    def readConfig(self):
+        config = {}
+        config["video.width"] = 320
+        config["video.height"] = 240
+        parser = ConfigParser.RawConfigParser()
+        if os.path.exists("game.cfg"):
+            parser.read("game.cfg")
+            for s in parser.sections():
+                for o in parser.options(s):
+                    key = "%s.%s" % (s, o)
+                    config[key] = parser.get( s, o )
+                    debug("%s = %s" % (key, config[key]))
+        return config
+
     def startup(self):
         random.seed()
+        self.config = self.readConfig()
         pygame.init()
         self.services = Services()
-        self.services.readyVideo( 320, 240 )
+        self.services.readyVideo( int(self.config["video.width"]), int(self.config["video.height"]) )
         self.gameModes = {}
         self.gameModes["load"] = LoadScreen(self.services)
         self.gameModes["menu"] = MenuScreen(self.services)
         self.state = self.gameModes["load"]
 
     def shutdown(self):
-        pass
+        debug( "FPS %s" % self.services.clock.get_fps() )
 
     def run(self):
         self.startup()
