@@ -15,6 +15,7 @@ class Services(object):
         self.fonts = {}
         self.fonts["default_small"] = pygame.font.Font(None, 16)
         self.fonts["default_big"] = pygame.font.Font(None, 32)
+        pygame.key.set_repeat( 250, 50 )
 
     def getNextEvent(self):
         key = None
