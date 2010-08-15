@@ -6,7 +6,6 @@
 import random
 from logging import debug, info, warning, error, critical
 from gamemode import *
-from menuscreen import *
 
 class LoadScreen(GameMode):
     def __init__(self, services):
@@ -20,7 +19,13 @@ class LoadScreen(GameMode):
         location.center = self.services.screen.get_rect().center
         return self.createSprite( logoSurf, location, 1 )
 
-    def run(self):
+    def waitOrKeys(self, timeout, keys):
+        for i in range(timeout):
+            self.delay()
+            if self.lastKey in keys: return True
+        return False
+
+    def doAnimation(self):
         purple = pygame.Color(128, 16, 192)
         purpleBlock = pygame.Surface((20,20))
         purpleBlock.fill(purple)
@@ -36,23 +41,28 @@ class LoadScreen(GameMode):
         random.shuffle(inblocks)
         outblocks = []
         frames = 0
+        killKeys = ("enter", "escape", "return")
         while len(inblocks) > 0:
             sprite = inblocks.pop()
             self.showSprite( sprite ) 
             outblocks.append(sprite)
             frames = (frames + 1) % 6
             if frames == 0:
-                self.delay()
-        self.delay(5)
+                if self.waitOrKeys(1,killKeys): return
+        if self.waitOrKeys(5,killKeys): return
         self.showSprite( logo ) 
-        self.delay(25)
+        if self.waitOrKeys(25,killKeys): return
         frames = 0
         while len(outblocks) > 0:
             sprite = outblocks.pop()
             self.hideSprite( sprite ) 
             frames = (frames + 1) % 6
             if frames == 0:
-                self.delay()
-        self.delay(15)
+                if self.waitOrKeys(1,killKeys): return
+        if self.waitOrKeys(15,killKeys): return
+        return
+
+    def run(self):
+        self.doAnimation()
         return "menu"
 

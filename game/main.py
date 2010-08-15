@@ -8,6 +8,7 @@ from logging import debug, info, warning, error, critical
 from loadscreen import *
 from menuscreen import *
 from services import *
+from testworld import *
 
 class MainGame(object):
     def __init__(self):
@@ -38,6 +39,7 @@ class MainGame(object):
         self.gameModes = {}
         self.gameModes["load"] = LoadScreen(self.services)
         self.gameModes["menu"] = MenuScreen(self.services)
+        self.gameModes["play"] = TestWorld(self.services)
         self.state = self.gameModes["load"]
 
     def shutdown(self):
